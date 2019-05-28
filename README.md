@@ -58,10 +58,21 @@ Script options:
 ## Example
 
 Delete all values from the trends tables that are older than 354 days with the LOW_PRIORITY specification and a LIMIT of 1000.
-`./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr `date +%s` - $((60*60*24*354)) ) --low-priority --limit=1000`
+
+```
+./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr \`date +%s\` - $((60*60*24*354)) ) --low-priority --limit=1000
+```
+
 
 Delete all values from the alerts table that are older than 354 days with the LOW_PRIORITY specification and without LIMIT.
-`./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr `date +%s` - $((60*60*24*354)) ) --low-priority`
+
+```
+./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr `date +%s` - $((60*60*24*354)) ) --low-priority
+```
+
 
 Delete all values from the historys tables that are older than 354 days without the LOW_PRIORITY specification and without LIMIT.
-`./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr `date +%s` - $((60*60*24*354)) )`
+
+```
+./zabbix-housekeeping.sh --database=example --host=127.0.0.1 --password='example' --user=example --trends-age=$(expr `date +%s` - $((60*60*24*354)) )
+```
