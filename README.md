@@ -43,6 +43,9 @@ The password to use when connecting to the server.
 ### --port( |=)port, -P port
 The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
 
+### --run-max( |=)number, -s number
+Set the max runs for deletions replays.
+
 ### --socket( |=)path, -s path
 The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
 

@@ -47,6 +47,9 @@ Script options:
   • --port( |=)\e[4mport\e[0m, -P \e[4mport\e[0m
     The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, $MYSQL_TCP_PORT, /etc/services, built-in default (3306).
 
+  • --run-max( |=)\e[4mnumber\e[0m, -s \e[4mnumber\e[0m
+    Set the max runs for deletions replays.
+
   • --socket( |=)\e[4mpath\e[0m, -s \e[4mpath\e[0m
     The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, $MYSQL_TCP_PORT, /etc/services, built-in default (3306).
 
@@ -149,6 +152,15 @@ function fParseArguments() {
         shift # past value
       fi
       ;;
+      -r|--run-max|--run-max=*)
+        if fCheckEqualChar "${key}" ; then
+          vRunMax="${key#*=}"
+          shift
+        else
+          vRunMax="$2"
+          shift; shift
+        fi
+      ;;
       -s|--socket|--socket=*)
       if fCheckEqualChar "${key}" ; then
         vSocket="${key#*=}"
@@ -232,6 +244,7 @@ function fRunDelete() {
 
       [[ ! "${vRunExitCount}" -eq "${vLimit}" ]]      && break
       [ -z ${vRunSetLimit+x} ]                        && break
+      [[ "${vRunCount}" -ge "${vRunMax}" ]]           && break
     done
     [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for table: ${tTable}."
     fTimeLog "Summery: Delete ${vRunExitCountSum} rows from ${tTable}."
