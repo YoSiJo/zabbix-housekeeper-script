@@ -211,10 +211,10 @@ function fRunDelete() {
     fi
 
     while true; do
-      [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${vRunTables} start."
+      [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
       vRunExitCount=$( ${vMysqlBin} -u ${vUser} ${vDatabase} -p${vPassword} ${vMysqlCon} -e "DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
       fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
-      [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${vRunTables} finish."
+      [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
 
       vRunCount=$(( ${vRunCount} + 1 ))
       vRunExitCountSum=$(( ${vRunExitCountSum} + ${vRunExitCount} ))
