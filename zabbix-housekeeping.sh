@@ -255,7 +255,7 @@ if [ ! -z ${vSocket} ]   && [ ! -z ${vHost} ]; then
 elif [ ! -z ${vSocket} ]; then
   vMysqlCon="${vMysqlCon} --socket=${vSocket}"
 else
-  vMysqlCon="${vMysqlCon} --host=${vHost}"
+  [ ! -z ${vHost} ] && vMysqlCon="${vMysqlCon} --host=${vHost}"
   [ ! -z ${vPort} ] && vMysqlCon="${vMysqlCon} --port=${vPort}"
 fi
 
