@@ -23,6 +23,9 @@ Script options:
   • --debug, -D
     Enable debug mode.
 
+  • --dry-run
+    Enable dry run mode.
+
   • --help, -h
     Display a help message and exit.
 
@@ -88,7 +91,10 @@ function fParseArguments() {
         vDebug=true
         shift
       ;;
-      -h|--help)
+      --dry-run)
+        vDryRun=true
+        shift
+      ;;      -h|--help)
         fHelp 0
       ;;
       --history-age|--history-age=*)
@@ -212,8 +218,13 @@ function fRunDelete() {
 
     while true; do
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
-      vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
-      fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
+      if [ -z ${vDryRun} ]; then
+        vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
+        fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
+      else
+        echo "$(date --iso-8601=seconds): Dry run commad: ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute=\"DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();\" | grep -Po '^[0-9]+'"
+        vRunExitCount=0
+      fi
       [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
 
       vRunCount=$(( ${vRunCount} + 1 ))
