@@ -47,7 +47,7 @@ The TCP/IP port number to use for the connection or 0 for default to, in order o
 Set the max runs for deletions replays.
 
 ### --socket( |=)path, -s path
-The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
+For connections to localhost, the Unix socket file to use, or, on Windows, the name of the named pipe to use.
 
 ### --time-log, -t
 Add time output lines. (iso-8601)

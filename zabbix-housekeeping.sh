@@ -51,7 +51,7 @@ Script options:
     Set the max runs for deletions replays.
 
   • --socket( |=)\e[4mpath\e[0m, -s \e[4mpath\e[0m
-    The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, $MYSQL_TCP_PORT, /etc/services, built-in default (3306).
+    For connections to localhost, the Unix socket file to use, or, on Windows, the name of the named pipe to use.
 
   • --time-log, -t
     Add time output lines. (iso-8601)
