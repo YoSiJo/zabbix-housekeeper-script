@@ -9,51 +9,51 @@ Use at your own risk.
 
 ```
 Usage: (-d |--database( |=))[OPTION] (-h|--help) …
-
-Script options:
-  • --alerts-age( |=)timestamp
-    Specifies the maximum age of the values, in unix timestamp format.
-
-  • --database( |=)databese name, -d databese name
-    The database to use.
-
-  • --debug, -D
-    Enable debug mode.
-
-  • --help, -h
-    Display a help message and exit.
-
-  • --history-age( |=)timestamp
-    Specifies the maximum age of the values, in unix timestamp format.
-
-  • --host( |=)ip or dns, -H ip or dns
-    Connect to the mysql server on the given host.
-
-  • --limit( |=)row_count, -l row_count
-    Add the LIMIT row_count statement to the DELETE query.
-
-  • --low-priority, -L
-    Add the LOW_PRIORITY statement to the DELETE query.
-
-  • --password( |=)password, -p password
-    The password to use when connecting to the server.
-
-  • --port( |=)port, -P port
-    The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
-
-  • --socket( |=)path, -s path
-    The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
-
-  • --time-log, -t
-    Add time output lines. (iso-8601)
-
-  • --trends-age( |=)timestamp
-    Specifies the maximum age of the values, in unix timestamp format.
-
-  • --user( |=)username, -u username
-    The MariaDB user name to use when connecting to the server.
-
 ```
+
+## Options
+
+### --alerts-age( |=)timestamp
+Specifies the maximum age of the values, in unix timestamp format.
+
+### --database( |=)databese name, -d databese name
+The database to use.
+
+### --debug, -D
+Enable debug mode.
+
+### --help, -h
+Display a help message and exit.
+
+### --history-age( |=)timestamp
+Specifies the maximum age of the values, in unix timestamp format.
+
+### --host( |=)ip or dns, -H ip or dns
+Connect to the mysql server on the given host.
+
+### --limit( |=)row_count, -l row_count
+Add the LIMIT row_count statement to the DELETE query.
+
+### --low-priority, -L
+Add the LOW_PRIORITY statement to the DELETE query.
+
+### --password( |=)password, -p password
+The password to use when connecting to the server.
+
+### --port( |=)port, -P port
+The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
+
+### --socket( |=)path, -s path
+The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, , /etc/services, built-in default (3306).
+
+### --time-log, -t
+Add time output lines. (iso-8601)
+
+### --trends-age( |=)timestamp
+Specifies the maximum age of the values, in unix timestamp format.
+
+### --user( |=)username, -u username
+The MariaDB user name to use when connecting to the server.
 
 ## Example
 
