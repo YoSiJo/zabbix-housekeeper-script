@@ -212,7 +212,7 @@ function fRunDelete() {
 
     while true; do
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
-      vRunExitCount=$( ${vMysqlBin} -u ${vUser} ${vDatabase} -p${vPassword} ${vMysqlCon} -e "DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
+      vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
       fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
       [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
 
@@ -235,14 +235,16 @@ vTablesHistory="history history_uint history_str history_text history_log"
 vTablesTrends="trends trends_uint"
 vTablesAlerts="alerts"
 
-[ ! -z ${vLimit} ]        && vRunSetLimit="LIMIT ${vLimit}"
-[ ! -z ${vLowPriority} ]  && vRunSetLowPriority="LOW_PRIORITY"
-if [ ! -z ${vSocket} ] && [ ! -z ${vHost} ]; then
+[ ! -z ${vLimit} ]       && vRunSetLimit="LIMIT ${vLimit}"
+[ ! -z ${vLowPriority} ] && vRunSetLowPriority="LOW_PRIORITY"
+[ ! -z ${vUser} ]        && vMysqlCon="${vMysqlCon} --user=\"${vUser}\""
+[ ! -z ${vPassword} ]    && vMysqlCon="${vMysqlCon} --password=\"${vPassword}\""
+if [ ! -z ${vSocket} ]   && [ ! -z ${vHost} ]; then
   fHelp 1
 elif [ ! -z ${vSocket} ]; then
-  vMysqlCon="--socket=${vSocket}"
+  vMysqlCon="${vMysqlCon} --socket=${vSocket}"
 else
-  vMysqlCon="--host=${vHost}"
+  vMysqlCon="${vMysqlCon} --host=${vHost}"
   [ ! -z ${vPort} ] && vMysqlCon="${vMysqlCon} --port=${vPort}"
 fi
 
