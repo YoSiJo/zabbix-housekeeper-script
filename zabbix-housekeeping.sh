@@ -72,23 +72,22 @@ function fParseArguments() {
 
     case $key in
       --alerts-age|--alerts-age=*)
-      if fCheckEqualChar "${key}" ; then
-        vAlertsAge="${key#*=}"
-        shift
-      else
-        vAlertsAge="$2"
-        shift; shift
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vAlertsAge="${key#*=}"
+          shift
+        else
+          vAlertsAge="$2"
+          shift; shift
+        fi
       ;;
       -d|--database|--database=*)
-      if fCheckEqualChar "${key}" ; then
-        vDatabase="${key#*=}"
-        shift # past value
-      else
-        vDatabase="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vDatabase="${key#*=}"
+          shift
+        else
+          vDatabase="$2"
+          shift; shift
+        fi
       ;;
       -D|--debug)
         vDebug=true
@@ -97,60 +96,58 @@ function fParseArguments() {
       --dry-run)
         vDryRun=true
         shift
-      ;;      -h|--help)
+      ;;
+      -h|--help)
         fHelp 0
       ;;
       --history-age|--history-age=*)
-      if fCheckEqualChar "${key}" ; then
-        vHistoryAge="${key#*=}"
-        shift
-      else
-        vHistoryAge="$2"
-        shift; shift
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vHistoryAge="${key#*=}"
+          shift
+        else
+          vHistoryAge="$2"
+          shift; shift
+        fi
       ;;
       -H|--host|--host=*)
-      if fCheckEqualChar "${key}" ; then
-        vHost="${key#*=}"
-        shift # past value
-      else
-        vHost="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vHost="${key#*=}"
+          shift
+        else
+          vHost="$2"
+          shift; shift
+        fi
       ;;
       -l|--limit|--limit=*)
-      if fCheckEqualChar "${key}" ; then
-        vLimit="${key#*=}"
-        shift # past value
-      else
-        vLimit="$2"
-        shift; shift
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vLimit="${key#*=}"
+          shift
+        else
+          vLimit="$2"
+          shift; shift
+        fi
       ;;
       -L|--low-priority)
         vLowPriority=true
         shift
       ;;
       -p|--password|--password=*)
-      if fCheckEqualChar "${key}" ; then
-        vPassword="${key#*=}"
-        shift # past value
-      else
-        vPassword="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vPassword="${key#*=}"
+          shift
+        else
+          vPassword="$2"
+          shift; shift
+        fi
       ;;
       -P|--port|--port=*)
-      if fCheckEqualChar "${key}" ; then
-        vPort="${key#*=}"
-        shift # past value
-      else
-        vPort="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vPort="${key#*=}"
+          shift
+        else
+          vPort="$2"
+          shift; shift
+        fi
       ;;
       -r|--run-max|--run-max=*)
         if fCheckEqualChar "${key}" ; then
@@ -162,45 +159,42 @@ function fParseArguments() {
         fi
       ;;
       -s|--socket|--socket=*)
-      if fCheckEqualChar "${key}" ; then
-        vSocket="${key#*=}"
-        shift # past value
-      else
-        vSocket="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vSocket="${key#*=}"
+          shift
+        else
+          vSocket="$2"
+          shift; shift
+        fi
       ;;
       -t|--time-log)
         vTimeLog=true
         shift
       ;;
       --trends-age|--trends-age=*)
-      if fCheckEqualChar "${key}" ; then
-        vTrendsAge="${key#*=}"
-        shift
-      else
-        vTrendsAge="$2"
-        shift; shift
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vTrendsAge="${key#*=}"
+          shift
+        else
+          vTrendsAge="$2"
+          shift; shift
+        fi
       ;;
       -u|--user|--user=*)
-      if fCheckEqualChar "${key}" ; then
-        vUser="${key#*=}"
-        shift # past value
-      else
-        vUser="$2"
-        shift # past argument
-        shift # past value
-      fi
+        if fCheckEqualChar "${key}" ; then
+          vUser="${key#*=}"
+          shift
+        else
+          vUser="$2"
+          shift; shift
+        fi
       ;;
-      *)    # unknown option
-      POSITIONAL+=("$1") # save it in an array for later
-      shift # past argument
+      *)
+        echo "Bad options!"
+        fHelp 1
       ;;
     esac
   done
-  set -- "${POSITIONAL[@]}" # restore positional parameters
 }
 
 function fTimeLog() {
@@ -242,9 +236,9 @@ function fRunDelete() {
       vRunCount=$(( ${vRunCount} + 1 ))
       vRunExitCountSum=$(( ${vRunExitCountSum} + ${vRunExitCount} ))
 
-      [[ ! "${vRunExitCount}" -eq "${vLimit}" ]]      && break
-      [ -z ${vRunSetLimit+x} ]                        && break
-      [[ "${vRunCount}" -ge "${vRunMax}" ]]           && break
+      [[ ! "${vRunExitCount}" -eq "${vLimit}" ]] && break
+      [ -z ${vRunSetLimit+x} ]                   && break
+      [[ "${vRunCount}" -ge "${vRunMax}" ]]      && break
     done
     [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for table: ${tTable}."
     fTimeLog "Summery: Delete ${vRunExitCountSum} rows from ${tTable}."
