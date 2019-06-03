@@ -26,6 +26,12 @@ Script options:
   • --dry-run
     Enable dry run mode.
 
+  • --exclude-table( |=)\e[4m'regex'\e[0m, -e \e[4m'regex'\e[0m
+    You can define a regular expression, which makes sure that the table is not treated when it is hit.
+    Used 'grep -Pq', for more information use 'man grep'
+    Use '--dry-run' for test. The skipped step have no output.
+    Example: ^(trends|trends_unit)$
+
   • --help, -h
     Display a help message and exit.
 
@@ -96,6 +102,15 @@ function fParseArguments() {
       --dry-run)
         vDryRun=true
         shift
+      ;;
+      -e|--exclude-table|--exclude-table=*)
+        if fCheckEqualChar "${key}" ; then
+          vExcludeTable="${key#*=}"
+          shift
+        else
+          vExcludeTable="${2}"
+          shift; shift
+        fi
       ;;
       -h|--help)
         fHelp 0
@@ -223,6 +238,7 @@ function fRunDelete() {
     fi
 
     while true; do
+      echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
       vRunCount=$(( ${vRunCount} + 1 ))
 
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."

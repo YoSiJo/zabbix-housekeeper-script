@@ -22,6 +22,14 @@ The database to use.
 ### --debug, -D
 Enable debug mode.
 
+### --exclude-table( |=)'regex', -e 'regex'
+You can define a regular expression, which makes sure that the table is not treated when it is hit.
+
+Used `grep -Pq`, for more information use 'man grep'
+
+Use `--dry-run` for test. The skipped step have no output.
+Example: `--exclude-table '^(history|history_units)$'`
+
 ### --help, -h
 Display a help message and exit.
 
