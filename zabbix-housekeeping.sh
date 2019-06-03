@@ -225,10 +225,10 @@ function fRunDelete() {
     while true; do
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
       if [ -z ${vDryRun} ]; then
-        vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
+        vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} WHERE clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
         fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
       else
-        echo "$(date --iso-8601=seconds): Dry run commad: ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute=\"DELETE ${vRunSetLowPriority} FROM ${tTable} where clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();\" | grep -Po '^[0-9]+'"
+        echo "$(date --iso-8601=seconds): Dry run commad: ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute=\"DELETE ${vRunSetLowPriority} FROM ${tTable} WHERE clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();\" | grep -Po '^[0-9]+'"
         vRunExitCount=0
       fi
       [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
