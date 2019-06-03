@@ -51,7 +51,7 @@ Script options:
     The password to use when connecting to the server.
 
   • --port( |=)\e[4mport\e[0m, -P \e[4mport\e[0m
-    The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, $MYSQL_TCP_PORT, /etc/services, built-in default (3306).
+    The TCP/IP port number to use for the connection or 0 for default to, in order of preference, my.cnf, ${MYSQL_TCP_PORT}, /etc/services, built-in default (3306).
 
   • --run-max( |=)\e[4mnumber\e[0m, -s \e[4mnumber\e[0m
     Set the max runs for deletions replays.
@@ -68,21 +68,21 @@ Script options:
   • --user( |=)\e[4musername\e[0m, -u \e[4musername\e[0m
     The MariaDB user name to use when connecting to the server.
 "
-exit $1
+exit ${1}
 }
 
 function fParseArguments() {
   POSITIONAL=()
   while [[ $# -gt 0 ]]; do
-    key="$1"
+    key="${1}"
 
-    case $key in
+    case ${key} in
       --alerts-age|--alerts-age=*)
         if fCheckEqualChar "${key}" ; then
           vAlertsAge="${key#*=}"
           shift
         else
-          vAlertsAge="$2"
+          vAlertsAge="${2}"
           shift; shift
         fi
       ;;
@@ -91,7 +91,7 @@ function fParseArguments() {
           vDatabase="${key#*=}"
           shift
         else
-          vDatabase="$2"
+          vDatabase="${2}"
           shift; shift
         fi
       ;;
@@ -120,7 +120,7 @@ function fParseArguments() {
           vHistoryAge="${key#*=}"
           shift
         else
-          vHistoryAge="$2"
+          vHistoryAge="${2}"
           shift; shift
         fi
       ;;
@@ -129,7 +129,7 @@ function fParseArguments() {
           vHost="${key#*=}"
           shift
         else
-          vHost="$2"
+          vHost="${2}"
           shift; shift
         fi
       ;;
@@ -138,7 +138,7 @@ function fParseArguments() {
           vLimit="${key#*=}"
           shift
         else
-          vLimit="$2"
+          vLimit="${2}"
           shift; shift
         fi
       ;;
@@ -151,7 +151,7 @@ function fParseArguments() {
           vPassword="${key#*=}"
           shift
         else
-          vPassword="$2"
+          vPassword="${2}"
           shift; shift
         fi
       ;;
@@ -160,7 +160,7 @@ function fParseArguments() {
           vPort="${key#*=}"
           shift
         else
-          vPort="$2"
+          vPort="${2}"
           shift; shift
         fi
       ;;
@@ -169,7 +169,7 @@ function fParseArguments() {
           vRunMax="${key#*=}"
           shift
         else
-          vRunMax="$2"
+          vRunMax="${2}"
           shift; shift
         fi
       ;;
@@ -178,7 +178,7 @@ function fParseArguments() {
           vSocket="${key#*=}"
           shift
         else
-          vSocket="$2"
+          vSocket="${2}"
           shift; shift
         fi
       ;;
@@ -191,7 +191,7 @@ function fParseArguments() {
           vTrendsAge="${key#*=}"
           shift
         else
-          vTrendsAge="$2"
+          vTrendsAge="${2}"
           shift; shift
         fi
       ;;
@@ -200,7 +200,7 @@ function fParseArguments() {
           vUser="${key#*=}"
           shift
         else
-          vUser="$2"
+          vUser="${2}"
           shift; shift
         fi
       ;;
@@ -263,7 +263,7 @@ function fRunDelete() {
   [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for tables: ${vRunTables}."
 }
 
-fParseArguments "$@"
+fParseArguments "${@}"
 
 vMysqlBin="$( which mysql )"
 vTablesHistory="history history_uint history_str history_text history_log"
