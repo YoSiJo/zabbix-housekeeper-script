@@ -215,7 +215,7 @@ function fRunDelete() {
 
   for tTable in ${vRunTables}; do
     [ ! -z "${vTimeLog}" ] && fTimeLog "Start run for table: ${tTable}."
-    vRunCount=1
+    vRunCount=0
     vRunExitCountSum=0
 
     if [ ! -z ${vDebug} ] ; then
@@ -223,6 +223,8 @@ function fRunDelete() {
     fi
 
     while true; do
+      vRunCount=$(( ${vRunCount} + 1 ))
+
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
       if [ -z ${vDryRun} ]; then
         vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} WHERE clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
@@ -233,12 +235,11 @@ function fRunDelete() {
       fi
       [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
 
-      vRunCount=$(( ${vRunCount} + 1 ))
       vRunExitCountSum=$(( ${vRunExitCountSum} + ${vRunExitCount} ))
 
       [[ ! "${vRunExitCount}" -eq "${vLimit}" ]] && break
       [ -z ${vRunSetLimit+x} ]                   && break
-      [[ "${vRunCount}" -ge "${vRunMax}" ]]      && break
+      [[ "${vRunCount}" -eq "${vRunMax}" ]]      && break
     done
     [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for table: ${tTable}."
     fTimeLog "Summery: Delete ${vRunExitCountSum} rows from ${tTable}."
