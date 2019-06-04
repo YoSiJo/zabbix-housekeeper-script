@@ -57,6 +57,28 @@ Set the max runs for deletions replays.
 ### --socket( |=)path, -s path
 For connections to localhost, the Unix socket file to use, or, on Windows, the name of the named pipe to use.
 
+### --table-history-age( |=)timestamp
+Run the DELETE query for the 'history' table.
+
+### --table-history-log-age( |=)timestamp
+Run the DELETE query for the 'history_log' table.
+
+### --table-history-str-age( |=)timestamp
+Run the DELETE query for the 'history_str' table.
+
+### --table-history-text-age( |=)timestamp
+Run the DELETE query for the 'history_text' table.
+
+### --table-history-uint-age( |=)timestamp
+Run the DELETE query for the 'history_unit' table.
+
+### --table-trends-age( |=)timestamp
+Run the DELETE query for the 'trends' table.
+
+### --table-trends-uint-age( |=)timestamp
+Run the DELETE query for the 'trends_unit' table.
+
+
 ### --time-log, -t
 Add time output lines. (iso-8601)
 

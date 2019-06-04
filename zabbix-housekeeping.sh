@@ -59,6 +59,27 @@ Script options:
   • --socket( |=)\e[4mpath\e[0m, -s \e[4mpath\e[0m
     For connections to localhost, the Unix socket file to use, or, on Windows, the name of the named pipe to use.
 
+  • --table-history-age|--table-history-age=*)
+    Run the DELETE query for the 'history' table.
+
+  • --table-history-log-age|--table-history-log-age=*)
+    Run the DELETE query for the 'history_log' table.
+
+  • --table-history-str-age|--table-history-str-age=*)
+    Run the DELETE query for the 'history_str' table.
+
+  • --table-history-text-age|--table-history-text-age=*)
+    Run the DELETE query for the 'history_text' table.
+
+  • --table-history-uint-age|--table-history-uint-age=*)
+    Run the DELETE query for the 'history_unit' table.
+
+  • --table-trends-age|--table-trends-age=*)
+    Run the DELETE query for the 'trends' table.
+
+  • --table-trends-uint-age|--table-trends-uint-age=*)
+    Run the DELETE query for the 'trends_unit' table.
+
   • --time-log, -t
     Add time output lines. (iso-8601)
 
@@ -182,6 +203,69 @@ function fParseArguments() {
           shift; shift
         fi
       ;;
+      --table-history-age|--table-history-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableHistoryAge="${key#*=}"
+          shift
+        else
+          vTableHistoryAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-history-log-age|--table-history-log-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableHistoryLogAge="${key#*=}"
+          shift
+        else
+          vTableHistoryLogAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-history-str-age|--table-history-str-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableHistoryStrAge="${key#*=}"
+          shift
+        else
+          vTableHistoryStrAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-history-text-age|--table-history-text-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableHistoryTextAge="${key#*=}"
+          shift
+        else
+          vTableHistoryTextAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-history-uint-age|--table-history-uint-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableHistoryUintAge="${key#*=}"
+          shift
+        else
+          vTableHistoryUintAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-trends-age|--table-trends-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableTrendsAge="${key#*=}"
+          shift
+        else
+          vTableTrendsAge="${2}"
+          shift; shift
+        fi
+      ;;
+      --table-trends-uint-age|--table-trends-uint-age=*)
+        if fCheckEqualChar "${key}" ; then
+          vTableTrendsUintAge="${key#*=}"
+          shift
+        else
+          vTableTrendsUintAge="${2}"
+          shift; shift
+        fi
+      ;;
       -t|--time-log)
         vTimeLog=true
         shift
@@ -238,7 +322,7 @@ function fRunDelete() {
     fi
 
     while true; do
-      echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
+      [ ! -z ${vExcludeTable} ] && echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
       vRunCount=$(( ${vRunCount} + 1 ))
 
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
@@ -322,6 +406,48 @@ if [ ! -z "${vHistoryAge}" ]; then
   [ ! -z "${vTimeLog}" ] && fTimeLog "Start trends delete run."
     fRunDelete "${vHistoryAge}" "${vTablesHistory}"
   [ ! -z "${vTimeLog}" ] && fTimeLog "Start trends delete run."
+fi
+
+if [ ! -z "${vTableHistoryAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableHistoryAge}" "history"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableHistoryLogAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableHistoryLogAge}" "history_log"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableHistoryStrAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableHistoryStrAge}" "history_str"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableHistoryTextAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableHistoryTextAge}" "history_text"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableHistoryUintAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableHistoryUintAge}" "history_uint"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableTrendsAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableTrendsAge}" "trends"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+fi
+
+if [ ! -z "${vTableTrendsUintAge}" ]; then
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
+  fRunDelete "${vTableTrendsUintAge}" "trends_unit"
+  [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
 fi
 
 [ ! -z "${vTimeLog}" ] && fTimeLog "Start End."
