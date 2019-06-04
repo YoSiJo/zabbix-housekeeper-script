@@ -322,7 +322,7 @@ function fRunDelete() {
     fi
 
     while true; do
-      echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
+      [ ! -z ${vExcludeTable} ] && echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
       vRunCount=$(( ${vRunCount} + 1 ))
 
       [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
