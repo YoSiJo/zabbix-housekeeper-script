@@ -88,6 +88,9 @@ Script options:
 
   • --user( |=)\e[4musername\e[0m, -u \e[4musername\e[0m
     The MariaDB user name to use when connecting to the server.
+
+  • -v|--verbose
+    Enable verbose mode
 "
 exit ${1}
 }
@@ -288,6 +291,10 @@ function fParseArguments() {
           shift; shift
         fi
       ;;
+      -v|--verbose)
+        vVerbose=true
+        shift
+      ;;
       *)
         echo "Bad options!"
         fHelp 1
@@ -325,15 +332,15 @@ function fRunDelete() {
       [ ! -z ${vExcludeTable} ] && echo "${tTable}" | grep -Pq "${vExcludeTable}" && break
       vRunCount=$(( ${vRunCount} + 1 ))
 
-      [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
+      [ ! -z "${vVerbose}" ] && [ ! -z "${vTimeLog+x}" ] && fTimeLog "Run ${vRunCount} for ${tTable} start."
       if [ -z ${vDryRun} ]; then
         vRunExitCount=$( ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute="DELETE ${vRunSetLowPriority} FROM ${tTable} WHERE clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();" | grep -Po '^[0-9]+' )
-        fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
+        [ ! -z "${vVerbose}" ] && [ ! -z "${vTimeLog}" ] && fTimeLog "Run: Delete ${vRunExitCount} rows from ${tTable}."
       else
         echo "$(date --iso-8601=seconds): Dry run commad: ${vMysqlBin} ${vMysqlCon} ${vDatabase} --execute=\"DELETE ${vRunSetLowPriority} FROM ${tTable} WHERE clock < ${vRunAge} ${vRunSetLimit}; SELECT ROW_COUNT();\" | grep -Po '^[0-9]+'"
         vRunExitCount=0
       fi
-      [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
+      [ ! -z "${vVerbose}" ] && [ ! -z "${vTimeLog}" ] && fTimeLog "Run ${vRunCount} for ${tTable} finish."
 
       vRunExitCountSum=$(( ${vRunExitCountSum} + ${vRunExitCount} ))
 
@@ -341,10 +348,10 @@ function fRunDelete() {
       [ -z ${vRunSetLimit+x} ]                   && break
       [[ "${vRunCount}" -eq "${vRunMax}" ]]      && break
     done
-    [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for table: ${tTable}."
-    fTimeLog "Summery: Delete ${vRunExitCountSum} rows from ${tTable}."
+    [ ! -z "${vVerbose}" ] && [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for table: ${tTable}."
+    [ ! -z "${vVerbose}" ] && fTimeLog "Summery: Delete ${vRunExitCountSum} rows from ${tTable}."
   done
-  [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for tables: ${vRunTables}."
+  [ ! -z "${vVerbose}" ] && [ ! -z "${vTimeLog}" ] && fTimeLog "Finish run for tables: ${vRunTables}."
 }
 
 fParseArguments "${@}"
