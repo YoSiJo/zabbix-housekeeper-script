@@ -30,7 +30,7 @@ Script options:
     You can define a regular expression, which makes sure that the table is not treated when it is hit.
     Used 'grep -Pq', for more information use 'man grep'
     Use '--dry-run' for test. The skipped step have no output.
-    Example: ^(trends|trends_unit)$
+    Example: ^(trends|trends_uint)$
 
   • --help, -h
     Display a help message and exit.
@@ -72,13 +72,13 @@ Script options:
     Run the DELETE query for the 'history_text' table.
 
   • --table-history-uint-age|--table-history-uint-age=*)
-    Run the DELETE query for the 'history_unit' table.
+    Run the DELETE query for the 'history_uint' table.
 
   • --table-trends-age|--table-trends-age=*)
     Run the DELETE query for the 'trends' table.
 
   • --table-trends-uint-age|--table-trends-uint-age=*)
-    Run the DELETE query for the 'trends_unit' table.
+    Run the DELETE query for the 'trends_uint' table.
 
   • --time-log, -t
     Add time output lines. (iso-8601)
@@ -446,7 +446,7 @@ fi
 
 if [ ! -z "${vTableTrendsUintAge}" ]; then
   [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
-  fRunDelete "${vTableTrendsUintAge}" "trends_unit"
+  fRunDelete "${vTableTrendsUintAge}" "trends_uint"
   [ ! -z "${vTimeLog}" ] && fTimeLog "Start  table delete run."
 fi
 

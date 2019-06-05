@@ -28,7 +28,7 @@ You can define a regular expression, which makes sure that the table is not trea
 Used `grep -Pq`, for more information use 'man grep'
 
 Use `--dry-run` for test. The skipped step have no output.
-Example: `--exclude-table '^(history|history_units)$'`
+Example: `--exclude-table '^(history|history_uints)$'`
 
 ### --help, -h
 Display a help message and exit.
@@ -70,13 +70,13 @@ Run the DELETE query for the 'history_str' table.
 Run the DELETE query for the 'history_text' table.
 
 ### --table-history-uint-age( |=)timestamp
-Run the DELETE query for the 'history_unit' table.
+Run the DELETE query for the 'history_uint' table.
 
 ### --table-trends-age( |=)timestamp
 Run the DELETE query for the 'trends' table.
 
 ### --table-trends-uint-age( |=)timestamp
-Run the DELETE query for the 'trends_unit' table.
+Run the DELETE query for the 'trends_uint' table.
 
 
 ### --time-log, -t
